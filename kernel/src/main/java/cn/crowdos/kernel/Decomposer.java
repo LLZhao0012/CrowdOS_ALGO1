@@ -43,6 +43,4 @@ public interface Decomposer<T> {
     List<T> trivialDecompose();
 
     List<T> scaleDecompose(int scale) throws DecomposeException;
-
-
 }

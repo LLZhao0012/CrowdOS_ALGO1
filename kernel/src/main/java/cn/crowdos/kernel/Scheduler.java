@@ -1,9 +1,6 @@
 package cn.crowdos.kernel;
 
-import cn.crowdos.kernel.algorithms.AlgoFactory;
-import cn.crowdos.kernel.algorithms.ParticipantSelectionAlgo;
-import cn.crowdos.kernel.algorithms.TaskAssignmentAlgo;
-import cn.crowdos.kernel.algorithms.TaskRecommendationAlgo;
+import cn.crowdos.kernel.algorithms.*;
 import cn.crowdos.kernel.resource.Participant;
 import cn.crowdos.kernel.resource.Task;
 import cn.crowdos.kernel.system.SystemResourceCollection;
@@ -23,19 +20,26 @@ public class Scheduler implements Resource<Scheduler> {
     // A private variable that is used to store the task assignment algorithm.
     private final TaskAssignmentAlgo taskAssignmentAlgo;
     // A private variable that is used to store the algorithm factory.
-    private final AlgoFactory algoFactory;
+
     // Used to store the resource collection.
     private final SystemResourceCollection resourceCollection;
 
     // The constructor of the Scheduler class. It is used to initialize the scheduler.
+
+    AbstractAlgoFactory psFactory;
+    AbstractAlgoFactory trFactory;
+    AbstractAlgoFactory taFactory;
+
     public Scheduler(SystemResourceCollection collection){
         this.resourceCollection = collection;
-        SystemResourceHandler<AlgoFactory> resourceHandler = collection.getResourceHandler(AlgoContainer.class);
-        this.algoFactory = resourceHandler.getResource();
+        SystemResourceHandler<AbstractAlgoFactory> resourceHandler = collection.getResourceHandler(AlgoContainer.class);
+        this.psFactory = resourceHandler.getResource();
+        this.trFactory = resourceHandler.getResource();
+        this.taFactory = resourceHandler.getResource();
 
-        participantSelectionAlgo = algoFactory.getParticipantSelectionAlgo();
-        taskRecommendationAlgo = algoFactory.getTaskRecommendationAlgo();
-        taskAssignmentAlgo = algoFactory.getTaskAssignmentAlgo();
+        participantSelectionAlgo = (ParticipantSelectionAlgo) psFactory.getAlgo();
+        taskRecommendationAlgo = (TaskRecommendationAlgo) trFactory.getAlgo();
+        taskAssignmentAlgo = (TaskAssignmentAlgo) taFactory.getAlgo();
     }
 
     /**
@@ -73,7 +77,7 @@ public class Scheduler implements Resource<Scheduler> {
      * @return A list of participants.
      */
     public List<Participant> participantSelection(Task task){
-        return participantSelectionAlgo.getCandidates(task);
+        return participantSelectionAlgo.getResults(task);
     }
 
     /**
@@ -83,7 +87,7 @@ public class Scheduler implements Resource<Scheduler> {
      * @return A list of participants.
      */
     public List<Participant> taskRecommendation(Task task){
-        return taskRecommendationAlgo.getRecommendationScheme(task);
+        return taskRecommendationAlgo.getResults(task);
     }
 
     /**
@@ -93,7 +97,7 @@ public class Scheduler implements Resource<Scheduler> {
      * @return A list of participants.
      */
     public List<Participant> taskAssignment(Task task){
-        return taskAssignmentAlgo.getAssignmentScheme(task);
+        return taskAssignmentAlgo.getResults(task);
     }
 
     /**
@@ -101,9 +105,20 @@ public class Scheduler implements Resource<Scheduler> {
      *
      * @return The algoFactory object.
      */
-    public AlgoFactory getAlgoFactory() {
-        return algoFactory;
+
+//    public AlgoFactory getAlgoFactory() {
+//        return (AlgoFactory) algoFactory;
+//    }
+    public AbstractAlgoFactory getPsFactory(){
+        return psFactory;
     }
+    public AbstractAlgoFactory getTrFactory(){
+        return trFactory;
+    }
+    public AbstractAlgoFactory getTaFactory(){
+        return taFactory;
+    }
+
 
     @Override
     // A method that returns a SystemResourceHandler object.

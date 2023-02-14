@@ -1,23 +1,23 @@
 package cn.crowdos.kernel.system.resource;
 
-import cn.crowdos.kernel.algorithms.AlgoFactory;
+import cn.crowdos.kernel.algorithms.AbstractAlgoFactory;
 import cn.crowdos.kernel.system.SystemResourceHandler;
 
-public class AlgoContainer extends ResourceContainer<AlgoFactory> {
+public class AlgoContainer extends ResourceContainer<AbstractAlgoFactory> {
 
-    public AlgoContainer(AlgoFactory resource) {
+    public AlgoContainer(AbstractAlgoFactory resource) {
         super(resource);
     }
     @Override
-    public SystemResourceHandler<AlgoFactory> getHandler() {
-        return new SystemResourceHandler<AlgoFactory>() {
+    public SystemResourceHandler<AbstractAlgoFactory> getHandler() {
+        return new SystemResourceHandler<AbstractAlgoFactory>() {
             @Override
-            public AlgoFactory getResourceView() {
+            public AbstractAlgoFactory getResourceView() {
                 return resource;
             }
 
             @Override
-            public AlgoFactory getResource() {
+            public AbstractAlgoFactory getResource() {
                 return resource;
             }
         };

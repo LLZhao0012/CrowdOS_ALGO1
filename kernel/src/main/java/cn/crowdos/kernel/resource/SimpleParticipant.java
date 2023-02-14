@@ -6,7 +6,7 @@ import cn.crowdos.kernel.constraint.Coordinate;
 public class SimpleParticipant extends AbstractParticipant{
 
     @ability
-    Coordinate location;
+    Coordinate location;                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
     @ability
     int something;

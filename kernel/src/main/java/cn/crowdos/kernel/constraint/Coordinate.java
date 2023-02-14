@@ -1,5 +1,7 @@
 package cn.crowdos.kernel.constraint;
 
+
+//coordinate坐标
 public class Coordinate implements Condition{
     final double longitude;
     final double latitude;

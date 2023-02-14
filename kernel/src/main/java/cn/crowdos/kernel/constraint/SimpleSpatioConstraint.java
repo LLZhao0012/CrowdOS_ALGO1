@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+//final关键字，不可变的
 public class SimpleSpatioConstraint implements Constraint {
 
     private final Coordinate[] range;

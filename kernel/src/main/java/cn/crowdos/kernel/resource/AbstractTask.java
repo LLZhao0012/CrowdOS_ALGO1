@@ -35,7 +35,7 @@ public abstract class AbstractTask implements Task{
         this.status = status;
     }
 
-    @Override
+
     public List<Constraint> constraints() {
         return constraints;
     }
